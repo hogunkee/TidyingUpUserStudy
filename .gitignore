@@ -3,3 +3,4 @@ logs
 .DS_Store
 Analysis.ipynb
 .*.swp
+*.zip
