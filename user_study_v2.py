@@ -63,7 +63,7 @@ def evaluate(data_folder, output_path, name):
         # Rate Each Scene
         score = -1
         key = cv2.waitKey(0)
-        print(key)
+        #print(key)
         if key==KEY_1:
             score = 1
         elif key==KEY_2:
