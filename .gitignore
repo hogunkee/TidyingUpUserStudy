@@ -2,5 +2,6 @@ logs
 .ipynb_checkpoints
 .DS_Store
 Analysis.ipynb
+Analysis-V2.ipynb
 .*.swp
 *.zip
