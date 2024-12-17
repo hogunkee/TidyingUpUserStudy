@@ -250,7 +250,7 @@ if __name__=='__main__':
         name = input("\n    Name: ").replace(' ', '')
         print()
         if VERSION==2:
-            output_path = 'logs/%s-v2' %name
+            output_path = 'logs/%s-v1' %name
         else:
             output_path = 'logs/%s' %name
         if os.path.isdir(output_path):

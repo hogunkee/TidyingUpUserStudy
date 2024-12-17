@@ -104,7 +104,7 @@ if __name__=='__main__':
     while True:
         name = input("\n    Name: ").replace(' ', '')
         print()
-        output_path = 'logs/%s-S' %name
+        output_path = 'logs/%s-v2' %name
         if os.path.isdir(output_path):
             print("    Same Name Already Exists!! Use another name.")
         else:
