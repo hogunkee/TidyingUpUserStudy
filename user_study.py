@@ -5,6 +5,7 @@ import cv2
 import platform
 from matplotlib import pyplot as plt
 
+VERSION = 2
 DELTA_T = 5
 DELTA_R = 10
 IMAGE_H = 360
@@ -108,30 +109,36 @@ def show_scene(image1, image2):
 
 def evaluate(data_folder, output_path, name):
     scenes = sorted([s for s in os.listdir(data_folder) if 'img' in s and '.png' in s])
-    #scenes = sorted([s.split('_')[0] for s in os.listdir(data_folder) if s.endswith('_img.png')])
-    scenes_binary = [s for s in scenes if s.startswith("Binary")]
-    scenes_linear = [s for s in scenes if s.startswith("Linear")]
-    scenes_sd = [s for s in scenes if s.startswith("SD")]
-    scenes_sf = [s for s in scenes if s.startswith("SF")]
-    scenes_02 = [s for s in scenes if s.startswith("Score02")]
-    scenes_24 = [s for s in scenes if s.startswith("Score24")]
-    scenes_46 = [s for s in scenes if s.startswith("Score46")]
-    scenes_68 = [s for s in scenes if s.startswith("Score68")]
-    scenes_81 = [s for s in scenes if s.startswith("Score81")]
+    if VERSION==1:
+        #scenes = sorted([s.split('_')[0] for s in os.listdir(data_folder) if s.endswith('_img.png')])
+        scenes_binary = [s for s in scenes if s.startswith("Binary")]
+        scenes_linear = [s for s in scenes if s.startswith("Linear")]
+        scenes_sd = [s for s in scenes if s.startswith("SD")]
+        scenes_sf = [s for s in scenes if s.startswith("SF")]
+        scenes_02 = [s for s in scenes if s.startswith("Score02")]
+        scenes_24 = [s for s in scenes if s.startswith("Score24")]
+        scenes_46 = [s for s in scenes if s.startswith("Score46")]
+        scenes_68 = [s for s in scenes if s.startswith("Score68")]
+        scenes_81 = [s for s in scenes if s.startswith("Score81")]
 
-    scenes_list = [scenes_binary, scenes_linear, scenes_sd, scenes_sf, scenes_02, scenes_24, scenes_46, scenes_68, scenes_81]
-    scenes = []
-    for si, _scenes in enumerate(scenes_list):
-        if si<4:
-            selected_scenes = np.random.choice(_scenes, 4, False)
-            scenes += list(selected_scenes)
-        else:
-            selected_scenes = np.random.choice(_scenes, 3, False)
-            scenes += list(selected_scenes)
-    np.random.shuffle(scenes)
+        scenes_list = [scenes_binary, scenes_linear, scenes_sd, scenes_sf, scenes_02, scenes_24, scenes_46, scenes_68, scenes_81]
+        scenes = []
+        for si, _scenes in enumerate(scenes_list):
+            if si<4:
+                selected_scenes = np.random.choice(_scenes, 4, False)
+                scenes += list(selected_scenes)
+            else:
+                selected_scenes = np.random.choice(_scenes, 3, False)
+                scenes += list(selected_scenes)
+        np.random.shuffle(scenes)
 
-    bg_path = ('nv_background.png')
-    bg_image = cv2.imread(bg_path)
+        bg_path = ('nv_background.png')
+        bg_image = cv2.imread(bg_path)
+    elif VERSION==2:
+        np.random.shuffle(scenes)
+
+        bg_path = ('nv_background.png')
+        bg_image = cv2.imread(bg_path)
 
     log_file = os.path.join(output_path, 'log_%s.txt'%name)
     with open(log_file, 'w') as file:
@@ -235,11 +242,17 @@ def evaluate(data_folder, output_path, name):
 
 
 if __name__=='__main__':
-    folder_path = 'data/'
+    if VERSION==1:
+        folder_path = 'data/'
+    elif VERSION==2:
+        folder_path = 'data-v2/'
     while True:
         name = input("\n    Name: ").replace(' ', '')
         print()
-        output_path = 'logs/%s' %name
+        if VERSION==2:
+            output_path = 'logs/%s-v2' %name
+        else:
+            output_path = 'logs/%s' %name
         if os.path.isdir(output_path):
             print("    Same Name Already Exists!! Use another name.")
         else:
